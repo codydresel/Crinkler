@@ -1382,14 +1382,17 @@ void Crinkler::Link(const char* filename) {
 
 			if (m_textPart == TEXT_PART_YES || m_textPart == TEXT_PART_AUTO) {
 				int totalTextSize = 0;
-				m_hunkList.ForEachHunk([&totalTextSize](Hunk* hunk) {
+				int totalNonTextSize = 0;
+				m_hunkList.ForEachHunk([&totalTextSize, &totalNonTextSize](Hunk* hunk) {
 					if (hunk->IsLikelyText()) {
 						totalTextSize += hunk->GetRawSize();
+					} else if((hunk->GetFlags() & HUNK_IS_CODE) == 0) {
+						totalNonTextSize += hunk->GetRawSize();
 					}
 					});
 
 				printf("Total text size: %d\n", totalTextSize);
-				if(m_textPart == TEXT_PART_YES || totalTextSize >= 500)
+				if(m_textPart == TEXT_PART_YES || (totalTextSize >= 500 && totalNonTextSize >= 500))
 					parts.GetOrAddPart("Text", true);
 			}
 		}

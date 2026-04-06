@@ -251,6 +251,13 @@ ModelList4k ApproximateModels4k(const unsigned char* data, int datasize, const u
 		return a.size < b.size;
 	});
 	ModelList4k models = modelsets[0];
+
+	// Make sure at least one model is selected to prevent crash in decompressor
+	if (models.nmodels == 0) {
+		models[0].mask = 0x00;	models[0].weight = 0;
+		models.nmodels = 1;
+	}
+
 	int size = OptimizeWeights(cs, models);
 	if(outCompressedSize)
 		*outCompressedSize = size;
