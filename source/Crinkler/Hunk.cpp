@@ -305,6 +305,9 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 				break;
 		}
 		
+		bool less_than_next = (it + 1) == symbols.end() || sym->value < (*(it + 1))->value;
+		bool next_is_private = (it + 1) != symbols.end() && (*(it + 1))->IsPrivate();
+
 		// Find where to place the record
 		while(r->GetLevel()+1 < c->GetLevel()) {
 			if(r->children.empty()) {	// Add a dummy element if we skip a level
@@ -314,12 +317,13 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 				if(level == LEVEL_SECTION)
 					dummy->miscString = ".dummy";
 				r->children.push_back(dummy);
+				if (!less_than_next || !next_is_private) {
+					c->type |= RECORD_HIDDEN;
+				}
 			}
 			r = r->children.back();
 		}
 		r->children.push_back(c);
-
-		bool less_than_next = (it + 1) == symbols.end() || sym->value < (*(it + 1))->value;
 
 		// Add public label to start of sections, if there isn't one already
 		if((c->type & RECORD_SECTION) && less_than_next) {
@@ -331,6 +335,9 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 		// Add private label after public ones, if there isn't one already
 		if(sym->value < GetRawSize() && (c->type & RECORD_PUBLIC) && less_than_next) {
 			CompressionReportRecord* dummy = makeRecord(c->name.c_str(), 0, sym->value);
+			if (!next_is_private) {
+				dummy->type |= RECORD_HIDDEN;
+			}
 			c->children.push_back(dummy);
 		}
 	}

@@ -612,7 +612,7 @@ static string GenerateLabel(Symbol* symbol, int value, Hunk& hunk) {
 		}
 	}
 	string name = StripCrinklerSymbolPrefix(symbol->name.c_str());
-	string ident = ToIdent(symbol->name, symbol->IsPrivate());
+	string ident = ToIdent(symbol->name, symbol->IsPrivate() && symbol->hunkOffset != 0);
 	string target_ident = ToIdent(target_symbol->name, true);
 	name = "<a href='#" + ident + "' onclick='recursiveExpand(\"" + target_ident + "\")'>" + name + "</a>";	// Add link
 	return offset > 0 ? format("{}+0x{:X}", name, offset)
@@ -811,7 +811,11 @@ static void HtmlReportRecursive(CompressionReportRecord* csr, back_insert_iterat
 			divstr = format("{}_{}", div_prefix, num_divs[level]++);
 			format_to(out, "<tr class='{}_expandable' onclick=\"switchMenu('{}');\">", css_class, divstr);
 		} else {
-			format_to(out, "<tr class='{}'>", css_class);
+			if (csr->type & RECORD_HIDDEN) {
+				format_to(out, "<tr class='{}' style='display:none'>", css_class);
+			} else {
+				format_to(out, "<tr class='{}'>", css_class);
+			}
 		}
 
 		// Make the label an anchor
