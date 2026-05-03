@@ -95,6 +95,7 @@ Crinkler::Crinkler():
 	m_runInitializers(1),
 	m_largeAddressAware(0),
 	m_saturate(0),
+	m_reportTheme(REPORT_THEME_AUTO),
 	m_stripExports(false)
 {
 	InitCompressor();

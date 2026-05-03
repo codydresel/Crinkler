@@ -19,6 +19,7 @@
 #include "CompositeProgressBar.h"
 #include "Export.h"
 #include "Reuse.h"
+#include "HtmlReport.h"
 
 
 class HunkLoader;
@@ -73,6 +74,7 @@ class Crinkler {
 	bool								m_runInitializers;
 	int									m_largeAddressAware;
 	int									m_saturate;
+	ReportTheme							m_reportTheme;
 
 	ConsoleProgressBar					m_consoleBar;
 	WindowProgressBar					m_windowBar;
@@ -138,6 +140,8 @@ public:
 	
 	void SetImportingType(bool safe)						{ m_useSafeImporting = safe; }
 	void SetSummary(const char* summaryFilename)			{ m_summaryFilename = summaryFilename; }
+	void SetReportTheme(ReportTheme theme)					{ m_reportTheme = theme; }
+	ReportTheme GetReportTheme() const						{ return m_reportTheme; }
 	void SetReuse(ReuseType type, const char* filename)		{ m_reuseType = type;	m_reuseFilename = filename; }
 	void SetTruncateFloats(bool enabled)					{ m_truncateFloats = enabled; }
 	void SetTruncateBits(int bits)							{ m_truncateBits = bits; }

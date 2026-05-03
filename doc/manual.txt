@@ -941,6 +941,15 @@ specified under Linker/Command Line/Additional Options:
     which parts of the executable take up the most space and which
     things to change to reduce the size.
 
+/REPORTTHEME:[DARK|LIGHT|AUTO]
+
+    Select the initial color theme used by the HTML report. With AUTO
+    (the default), the report follows the browser's prefers-color-scheme
+    setting on first load. With DARK or LIGHT, the report opens in the
+    chosen theme regardless of the browser preference. The theme can
+    still be toggled at any time using the "switch theme" link in the
+    report.
+
 /PRINT:LABELS
 
     Print a list of all labels in the program along with uncompressed
@@ -997,9 +1006,9 @@ option is specified, Crinkler takes a single file argument, which must
 be an EXE file produced by Crinkler 0.4 or newer. Most options then
 take on slightly different meanings, as described here.
 
-The /CRINKLER, /PRIORITY, @commandfile and /PROGRESSGUI options work
-as normally. Below are described the options that have special meaning
-during recompression. All other options are ignored.
+The /CRINKLER, /PRIORITY, @commandfile, /REPORTTHEME and /PROGRESSGUI
+options work as normally. Below are described the options that have
+special meaning during recompression. All other options are ignored.
 
 /SUBSYSTEM:CONSOLE
 /SUBSYSTEM:WINDOWS
