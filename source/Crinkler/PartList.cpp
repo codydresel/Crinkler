@@ -152,6 +152,7 @@ void Part::DeleteUnreferencedHunks(const SymbolMap& symbolMap, const vector<Hunk
 			Symbol* s = symbolMap.FindSymbol(relocation.symbolname.c_str());
 
 			if (s) {
+				s->flags |= SYMBOL_IS_REFERENCED;
 				if (s->secondaryName.size() > 0) {	// Weak symbol
 					s->hunk->m_numReferences++;
 					s = symbolMap.FindSymbol(s->secondaryName.c_str());

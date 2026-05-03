@@ -7,6 +7,7 @@ const int SYMBOL_IS_LOCAL =			0x02;
 const int SYMBOL_IS_FUNCTION =		0x04;
 const int SYMBOL_IS_SECTION =		0x08;
 const int SYMBOL_IS_CODE =			0x10;
+const int SYMBOL_IS_REFERENCED =	0x20;
 
 #include <string>
 

@@ -23,6 +23,8 @@ static bool SymbolComparator(Symbol* first, Symbol* second) {
 			return (first->flags & SYMBOL_IS_SECTION) != 0;
 		if((first->flags & SYMBOL_IS_LOCAL) != (second->flags & SYMBOL_IS_LOCAL))
 			return (first->flags & SYMBOL_IS_LOCAL) == 0;
+		if((first->flags & SYMBOL_IS_REFERENCED) != (second->flags & SYMBOL_IS_REFERENCED))
+			return (first->flags & SYMBOL_IS_REFERENCED) != 0;
 		return first->name < second->name;
 	}
 }
