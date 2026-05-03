@@ -26,7 +26,6 @@ const int RECORD_PART =			0x02;
 const int RECORD_PUBLIC	=		0x04;
 const int RECORD_SECTION =		0x10;
 const int RECORD_CODE =			0x20;
-const int RECORD_NOANCHOR =		0x40;
 
 const int LEVEL_PART =			0;
 const int LEVEL_SECTION =		1;

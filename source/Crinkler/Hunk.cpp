@@ -311,7 +311,6 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 				int level = r->GetLevel()+1;
 				string name = c->pos == r->pos ? c->name : r->name;
 				CompressionReportRecord* dummy = makeRecord(name.c_str(), GetType(level), sym->value);
-				r->type |= RECORD_NOANCHOR;
 				if(level == LEVEL_SECTION)
 					dummy->miscString = ".dummy";
 				r->children.push_back(dummy);
@@ -326,7 +325,6 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 		if((c->type & RECORD_SECTION) && less_than_next) {
 			CompressionReportRecord* dummy = makeRecord(c->name.c_str(), RECORD_PUBLIC, sym->value);
 			c->children.push_back(dummy);
-			c->type |= RECORD_NOANCHOR;
 			c = dummy;
 		}
 
@@ -334,7 +332,6 @@ CompressionReportRecord* Hunk::GenerateCompressionSummary(PartList& parts, int* 
 		if(sym->value < GetRawSize() && (c->type & RECORD_PUBLIC) && less_than_next) {
 			CompressionReportRecord* dummy = makeRecord(c->name.c_str(), 0, sym->value);
 			c->children.push_back(dummy);
-			c->type |= RECORD_NOANCHOR;
 		}
 	}
 

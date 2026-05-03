@@ -489,13 +489,14 @@ struct SizeColor {
 
 // Converts a string to an unique identifier consisting of only ['A'-Z']
 
-static string ToIdent(string str) {
+static string ToIdent(string str, bool isPrivate) {
 	static char buff[16] = {'A', 0};
-	if(identmap[str] != "") {
-		return identmap[str];
+	string key = isPrivate ? str + "#" : str;
+	if(identmap[key] != "") {
+		return identmap[key];
 	}
 	string ident = buff;
-	identmap[str] = ident;
+	identmap[key] = ident;
 
 	buff[0]++;
 	int i = 0;
@@ -611,8 +612,9 @@ static string GenerateLabel(Symbol* symbol, int value, Hunk& hunk) {
 		}
 	}
 	string name = StripCrinklerSymbolPrefix(symbol->name.c_str());
-	string ident = ToIdent(target_symbol->name);
-	name = "<a href='#" + ident + "' onclick='recursiveExpand(\"" + ident + "\")'>" + name + "</a>";	// Add link
+	string ident = ToIdent(symbol->name, symbol->IsPrivate());
+	string target_ident = ToIdent(target_symbol->name, true);
+	name = "<a href='#" + ident + "' onclick='recursiveExpand(\"" + target_ident + "\")'>" + name + "</a>";	// Add link
 	return offset > 0 ? format("{}+0x{:X}", name, offset)
 		: offset < 0 ? format("{}-0x{:X}", name, -offset)
 		: name;
@@ -813,8 +815,10 @@ static void HtmlReportRecursive(CompressionReportRecord* csr, back_insert_iterat
 		}
 
 		// Make the label an anchor
-		if(!(csr->type & RECORD_NOANCHOR)) { // Don't put anchors on records that have dummy records
-			label = "<a id='" + ToIdent(csr->name) + "'>" + label + "</a>";
+		if(csr->GetLevel() == LEVEL_PRIVATE) {
+			label = "<span id='" + ToIdent(csr->name, true) + "'>" + label + "</span>";
+		} else {
+			label = "<a id='" + ToIdent(csr->name, false) + "'>" + label + "</a>";
 		}
 		
 		format_to(out,"<th nowrap class='c1'>{0}{1:08X}&nbsp;</th>"
