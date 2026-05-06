@@ -222,6 +222,7 @@ static INT_PTR CALLBACK ReuseDialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
+			SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			int active = (int)lParam;
 			HWND hwndButton = GetDlgItem(hwnd, active + 100);
 			if (hwndButton) {
