@@ -1409,7 +1409,7 @@ void Crinkler::Link(const char* filename) {
 	}
 
 	parts.ForEachPart([](const Part& part, int index) {
-		if (part.GetLinkedSize() == 0) {
+		if (part.IsEmpty()) {
 			Log::Warning("", "Part '%s' is empty.", part.GetName());
 		}
 	});
