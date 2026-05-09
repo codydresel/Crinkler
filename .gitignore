@@ -2,7 +2,6 @@
 /artifacts/
 /build/
 *.user
-*.map
 /test/libs
 /test/*.dmp
 /test/*.exe
