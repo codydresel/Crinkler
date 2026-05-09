@@ -162,6 +162,14 @@ ModelList4k InstantModels4k() {
 }
 
 ModelList4k ApproximateModels4k(const unsigned char* data, int datasize, const unsigned char context[MAX_CONTEXT_LENGTH], CompressionType compressionType, bool saturate, int baseprob, int* outCompressedSize, ProgressCallback* progressCallback, void* progressUserData) {
+	if (datasize == 0) {
+		ModelList4k models;
+		models[0].mask = 0x00;	models[0].weight = 0;
+		models.nmodels = 1;
+		*outCompressedSize = 0;
+		return models;
+	}
+
 	int width = compressionType == COMPRESSION_VERYSLOW ? 3 : 1;
 	const int ELITE_FLAG = INT_MIN;
 
