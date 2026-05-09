@@ -4,7 +4,7 @@ CRINKLER - Compressing linker for Windows specialized for 4k intros
 Aske Simon Christensen "Blueberry/Loonies"
 Rune L. H. Stubbe "Mentor/TBC"
 
-Version 3.0 (February 27, 2026)
+Version 3.0a (May 9, 2026)
 
 Web:    http://crinkler.net/
 GitHub: https://github.com/runestubbe/Crinkler
@@ -14,6 +14,16 @@ Mail:   authors@crinkler.net
 
 VERSION HISTORY
 ---------------
+09.05.26: 3.0a: Select at least one model to prevent crash in decompressor.
+                Fixed crash in model estimation for empty parts.
+                Changed /TEXTPART:AUTO to also require 500 bytes of non-text.
+                /REPORTTHEME option to pick theme ignoring browser preference.
+                Fixed delayed switch to light theme when loading report.
+                Fixed labels sometimes not expanding the target when clicked.
+                Omit redundant local labels that span the entire global label.
+                Place referenced labels before co-located unreferenced ones.
+                Fixed REUSEGUI window sometimes opening behind other windows.
+
 27.02.26: 3.0:  Support any number of parts, instead of just code and data.
                 Improved model hashing using CRC32, saving 3 bytes in header.
                 Crinkler and the EXE files it produces now require SSE4.2.
@@ -628,8 +638,8 @@ Linker/Command Line/Additional Options:
     Specifies whether Crinkler should create a part consisting of all
     sections that look like text data (according to an internal
     heuristic). With AUTO (the default), the text part will be created
-    if the total uncompressed size of all sections that look like text
-    data is at least 500 bytes.
+    if the total uncompressed sizes of text and non-text sections are
+    at least 500 bytes each.
 
 /REUSE:[reuse parameter file name]
 /REUSEMODE:OFF
