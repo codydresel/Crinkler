@@ -1408,7 +1408,7 @@ void Crinkler::Link(const char* filename) {
 		HeuristicHunkSorter::SortHunkList(parts);
 	}
 
-	parts.ForEachPart([](Part& part) {
+	parts.ForEachPart([](const Part& part, int index) {
 		if (part.GetLinkedSize() == 0) {
 			Log::Warning("", "Part '%s' is empty.", part.GetName());
 		}
