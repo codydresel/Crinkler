@@ -1408,6 +1408,12 @@ void Crinkler::Link(const char* filename) {
 		HeuristicHunkSorter::SortHunkList(parts);
 	}
 
+	parts.ForEachPart([](Part& part) {
+		if (part.GetLinkedSize() == 0) {
+			Log::Warning("", "Part '%s' is empty.", part.GetName());
+		}
+	});
+
 	// Add export table after heuristic sorting and reuse to make sure it is last
 	if (!m_exports.empty()) {
 		parts[parts.GetNumParts() - 2].AddHunkBack(CreateExportTable(m_exports));
